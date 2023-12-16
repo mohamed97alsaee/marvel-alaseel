@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marvel/providers/movies_provider.dart';
+import 'package:marvel/widgets/movie_card.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,17 +32,15 @@ class _HomeScreenState extends State<HomeScreen> {
         body: moviesConsumer.isLoading
             ? const Center(child: CircularProgressIndicator())
             : GridView.builder(
+                padding: const EdgeInsets.all(24),
                 itemCount: moviesConsumer.movies.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 0.7),
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.65,
+                    crossAxisSpacing: 24,
+                    mainAxisSpacing: 24),
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      color: Colors.green,
-                      child: Text(moviesConsumer.movies[index].title),
-                    ),
-                  );
+                  return MovieCard(movieModel: moviesConsumer.movies[index]);
                 }),
       );
     });
