@@ -22,27 +22,37 @@ class _HomeScreenState extends State<HomeScreen> {
     Size size = MediaQuery.of(context).size;
     return Consumer<MoviesProvider>(builder: (context, moviesConsumer, child) {
       return Scaffold(
-        appBar: AppBar(
-            centerTitle: true,
-            title: Image.asset(
-              "assets/MarvelLogo.png",
-              fit: BoxFit.contain,
-              width: size.width * 0.2,
-            )),
-        body: moviesConsumer.isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : GridView.builder(
-                padding: const EdgeInsets.all(24),
-                itemCount: moviesConsumer.movies.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.65,
-                    crossAxisSpacing: 24,
-                    mainAxisSpacing: 24),
-                itemBuilder: (context, index) {
-                  return MovieCard(movieModel: moviesConsumer.movies[index]);
-                }),
-      );
+          appBar: AppBar(
+              centerTitle: true,
+              title: Image.asset(
+                "assets/MarvelLogo.png",
+                fit: BoxFit.contain,
+                width: size.width * 0.2,
+              )),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                const Divider(),
+                moviesConsumer.isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : GridView.builder(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.all(24),
+                        itemCount: moviesConsumer.movies.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.65,
+                                crossAxisSpacing: 24,
+                                mainAxisSpacing: 24),
+                        itemBuilder: (context, index) {
+                          return MovieCard(
+                              movieModel: moviesConsumer.movies[index]);
+                        }),
+              ],
+            ),
+          ));
     });
   }
 }
